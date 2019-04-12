@@ -21,6 +21,7 @@ class Device:
 
         self._requests = api_requests.APIRequests()
         self._connection = connection.Connection(self._api, self._requests)
+        self._rec_handler = playback_handler.RecordingsHandler(self._api)
 
         self._model = self._get_device_model()
         self._firmware_version = self._get_firmware_version()
@@ -52,12 +53,17 @@ class Device:
 
         return self._api.request("POST", data=self._requests.device_general_info_get)
 
-    def get_available_recordings(self):
+    def get_available_recordings(self) -> list:
         """
         """
 
-        rec_handler = playback_handler.RecordingsHandler(self._api)
-        rec_handler.fetch_available_files()
+        return self._rec_handler.fetch_available_files()
+
+    def download_recording(self, filename, output_name):
+        """
+        """
+
+        self._rec_handler.download_file(self._ip_address, filename, output_name)
 
     def get_open_ports_services(self):
         return self._connection.ports_services

@@ -9,9 +9,10 @@ USERNAME = input("Please enter the username for your device (default: admin)...\
 PASSWORD = input("Please enter the password for user account '{}'...\n".format(USERNAME))
 
 CAM = device.Device(IP_ADDRESS, PASSWORD, USERNAME)
+print(CAM)
 print(CAM.get_general_device_info())
 print(CAM.get_open_ports_services())
-CAM.get_available_recordings()
+print(CAM.get_available_recordings())
 
 # TODO Implement settings class
 # TODO Properly mplement device class

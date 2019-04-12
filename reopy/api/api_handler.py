@@ -10,6 +10,10 @@ class BasicAPIHandler:
     Reolink camera API
     """
 
+    # TODO Implement LogInException
+    # TODO Implement RequestTypeUnsupportedException
+    # TODO Implement CameraError
+
     def __init__(self, password: str, username: str = "admin"):
         self._password = password
         self._username = username
@@ -49,8 +53,6 @@ class BasicAPIHandler:
                 }
             }
         ]
-
-        # TODO Implement log-in-not-successful exception
 
         try:
             print("Attempting to log in...")
@@ -117,15 +119,15 @@ class BasicAPIHandler:
                 raise Exception
 
         else:
-            print("Not logged in yet...")
-            raise Exception
+            self.login()
 
     def _check_token_status(self) -> bool:
         if self._token and self._lease_time and self._login_time is not None:
             current_time = time.time()
             if (current_time - self._login_time) > self._lease_time: # If lease time of token expired...
-                print("Renewing token...")
-                self.login()                                         # ...renew it
+                return False                                         # ...renew it
+            else:
+                return True
 
         else:
             raise Exception

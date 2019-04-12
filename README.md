@@ -5,11 +5,11 @@ ____
 
 An unofficial library used to control Reolink security cameras using their (mostly) undocumented API
 
-Written and tested in Python version 3.5.2 and above.
+Written and tested in Python version 3.7.2 and above.
 ___
 
 ## Prerequisites
-- Install Python version 3.5.2 or above (you can download Python [here](https://www.python.org/downloads/))
+- Install Python version 3.7.2 or above (you can download Python [here](https://www.python.org/downloads/))
 - Install necessary packages:
     `python3 -m pip install -r requirements.txt`
 ____

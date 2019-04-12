@@ -3,7 +3,7 @@ class APIRequests:
     All necessary API requests stored in one place, customizable
     """
 
-    # TODO Maybe as DataClass?
+    # TODO Maybe each Request should have its own JSON file?
 
     def __init__(self):
         self._device_general_info_get = [
