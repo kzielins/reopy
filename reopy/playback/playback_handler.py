@@ -57,59 +57,61 @@ class RecordingsHandler:
 
             info_video_dates = list()
 
-            available_videos = self._get_available_videos_per_year(current_month, current_year) # Fetch all downloadable videos from the year specified
+            try:
+                available_videos = self._get_available_videos_per_year(current_month, current_year) # Fetch all downloadable videos from the year specified
 
-            for available_videos_per_year in available_videos:
+                for available_videos_per_year in available_videos:
 
-                for elements in available_videos_per_year["SearchResult"]["Status"]:
-                    info_video_dates.append(elements)
+                    for elements in available_videos_per_year["SearchResult"]["Status"]:
+                        info_video_dates.append(elements)
 
-                for video_info in info_video_dates:
-                    available_files_days = video_info["table"]
-                    days_month = list()
-                    for j in range(len(available_files_days)):
-                        if not available_files_days[j] == "0":
-                            days_month.append(j+1)              # Fetch dates that have downloadable video files available
-                    video_info["table"] = days_month
+                    for video_info in info_video_dates:
+                        available_files_days = video_info["table"]
+                        days_month = list()
+                        for j in range(len(available_files_days)):
+                            if not available_files_days[j] == "0":
+                                days_month.append(j+1)              # Fetch dates that have downloadable video files available
+                        video_info["table"] = days_month
 
-                # TODO Optimize runtime (not O(n^3))
+                    # TODO Optimize runtime (not O(n^3))
 
-                days_total = 0
-                recordings_total = 0
+                    days_total = 0
+                    recordings_total = 0
 
-                for video_info in info_video_dates:
-                    year = video_info["year"]
-                    month = video_info["mon"]
-                    days = video_info["table"]
+                    for video_info in info_video_dates:
+                        year = video_info["year"]
+                        month = video_info["mon"]
+                        days = video_info["table"]
 
-                    # Obtain name of each recording on specified days
+                        # Obtain name of each recording on specified days
 
-                    for day in days:
-                        videos_per_day = self._get_available_videos_per_day(day, month, year)
+                        for day in days:
+                            videos_per_day = self._get_available_videos_per_day(day, month, year)
 
-                        for video in videos_per_day:
-                            recordings.append(video["name"])
+                            for video in videos_per_day:
+                                recordings.append(video["name"])
 
-            return recordings
+                return recordings
+
+            except KeyError:
+                raise ValueError("No data available at given dates")
 
     def _get_available_videos_per_day(self, day: int, month: int, year: int) -> list:
         try:
             available_videos_per_day = self._api.request("POST", data=api_requests.APIRequests.playback_info_day(day, month, year))
 
             return [file for file in available_videos_per_day["SearchResult"]["File"]]
+
         except KeyError:
             raise ValueError("No data available at given day")
 
     def _get_available_videos_per_year(self, month: int, year: int) -> list:
         available_videos = list()
 
-        try:
-            if 1 == month:
-                for each_year in range(year, year-2, -1):
-                    available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(each_year)))
-            else:
-                available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(year)))
+        if 1 == month:
+            for each_year in range(year, year-2, -1):
+                available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(each_year)))
+        else:
+            available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(year)))
 
-            return available_videos
-        except KeyError:
-            raise ValueError("No data available at given dates")
+        return available_videos

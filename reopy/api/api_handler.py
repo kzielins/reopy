@@ -14,7 +14,6 @@ class BasicAPIHandler:
     """
 
     # TODO Implement LogInException
-    # TODO Implement RequestTypeUnsupportedException
     # TODO Implement CameraError
 
     def __init__(self, ip_address, password: str, username: str = "admin"):
@@ -114,8 +113,7 @@ class BasicAPIHandler:
             elif "POST" is request_type:
                 req = requests.post(self._api_url, data=ujson.dumps(data))
             else:
-                print("Request type unsupported...")
-                raise Exception
+                raise ValueError("Request type unsupported")
 
             response = ujson.loads(req.text)[0]
 
@@ -137,4 +135,4 @@ class BasicAPIHandler:
                 return True
 
         else:
-            raise Exception
+            raise ValueError("No login data detected")
