@@ -1,3 +1,6 @@
+#!/usr/bin/env python3.7
+# -*- coding: utf-8 -*-
+
 class APIRequests:
     """
     All necessary API requests stored in one place, customizable
@@ -33,8 +36,14 @@ class APIRequests:
     @staticmethod
     def playback_info_day(day: int, month: int, year: int) -> dict:
         """
-        Returns custom api request, which is then used to fetch information
+        Return custom api request, which is then used to fetch information
         about all downloadable video files on a specified day
+
+        :param day:
+        :param month:
+        :param year:
+
+        :return:
         """
 
         api_request = [
@@ -80,7 +89,7 @@ class APIRequests:
     @staticmethod
     def playback_info_available(year: int) -> dict:
         """
-        Returns custom api request, which is then used to fetch information
+        Return custom api request, which is then used to fetch information
         about all downloadable video files on a specified day
         """
 
@@ -122,7 +131,7 @@ class APIRequests:
     @property
     def device_general_info_get(self):
         """
-        Returns api request, which is then used to fetch general
+        Return api request, which is then used to fetch general
         information about the device itself
         """
 
@@ -131,7 +140,7 @@ class APIRequests:
     @property
     def device_open_ports_services_get(self):
         """
-        Returns api request, which is then used to fetch information
+        Return api request, which is then used to fetch information
         about open ports and running services on the device
         """
 
@@ -140,7 +149,7 @@ class APIRequests:
     @property
     def device_network_interface_get(self):
         """
-        Returns custom api request, which is then used to fetch information
+        Return custom api request, which is then used to fetch information
         about interfaces used to communicate with the client by the device
         """
 

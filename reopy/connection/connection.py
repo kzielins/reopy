@@ -1,3 +1,6 @@
+#!/usr/bin/env python3.7
+# -*- coding: utf-8 -*-
+
 class Connection:
     """
 
@@ -11,15 +14,17 @@ class Connection:
         self._ports_services = self._get_open_ports_services()["NetPort"]
 
     @property
-    def mac_address(self):
+    def mac_address(self) -> str:
         """
+        MAC address getter
         """
 
         return self._mac_address
 
     @property
-    def ports_services(self):
+    def ports_services(self) -> dict:
         """
+        Port: Service map getter
         """
 
         return self._ports_services
