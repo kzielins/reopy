@@ -13,8 +13,7 @@ print(CAM.get_available_recordings())
 # TODO Implement settings class
 # TODO Properly implement device class
 
-# TODO Remove print functions, THIS IS A LIBRARY
-# TODO Implement feature to retrieve live video stream
-# TODO Initialize git repository (priority: middle)
-# TODO Rework Exception system (priority: low)
+# TODO Remove print functions, THIS IS A LIBRARY -> Exceptions
+# TODO Rework Exception system (priority: high)
+# TODO Implement feature to retrieve live video stream (priority: low)
 # TODO URL/IP modularity, see network detection system (priority: low)
