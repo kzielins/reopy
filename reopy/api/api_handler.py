@@ -1,3 +1,6 @@
+#!/usr/bin/env python3.7
+# -*- coding: utf-8 -*-
+
 import sys
 import time
 
@@ -14,7 +17,9 @@ class BasicAPIHandler:
     # TODO Implement RequestTypeUnsupportedException
     # TODO Implement CameraError
 
-    def __init__(self, password: str, username: str = "admin"):
+    def __init__(self, ip_address, password: str, username: str = "admin"):
+        self._ip_address = ip_address
+
         self._password = password
         self._username = username
 
@@ -37,7 +42,7 @@ class BasicAPIHandler:
         Log into Reolink camera interface using the api
         """
 
-        login_url = "http://192.168.2.100/cgi-bin/api.cgi?cmd=Login&token=null"
+        login_url = "http://{0}/cgi-bin/api.cgi?cmd=Login&token=null".format(self._ip_address)
 
         # Move to API Requests class?
 
@@ -81,7 +86,7 @@ class BasicAPIHandler:
                         print(resp_json)
                         raise Exception
 
-                self._api_url = "http://192.168.2.100/cgi-bin/api.cgi?token={}".format(self._token)
+                self._api_url = "http://{0}/cgi-bin/api.cgi?token={1}".format(self._ip_address, self._token)
                 print("Obtained token {0} (lease time: {1} seconds)...".format(self._token, self._lease_time))
 
             else:
@@ -90,7 +95,8 @@ class BasicAPIHandler:
                 print(req.text)
 
                 raise Exception
-        except:
+        except Exception as e:
+            print(e.args)
             sys.exit(1)
 
     def request(self, request_type: str = "POST", data: str = "") -> dict:
@@ -98,6 +104,7 @@ class BasicAPIHandler:
         Send basic request to Reolink API to fetch desired data
         :param request_type:
         :param data:
+
         :return:    The API response
         """
 

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3.7
+# -*- coding: utf-8 -*-
+
 import urllib.request
 import shutil
 
@@ -9,22 +12,36 @@ class RecordingsHandler:
     An interface to automatically download all stored video files on the camera
     """
 
-    def __init__(self, api_handler):
+    def __init__(self, api_handler: object):
         self._api = api_handler
 
-    def download_file(self, ip_address, filename, output_name):
+    def download_file(self, ip_address: str, filename: str, output_name: str = ""):
         """
-        Download video files from the camera
+        Download the provided video file in the execution folder
+        Name of the recording is enough, as the API only demands the filename
+
+        :param ip_address: The cameras IP address
+        :param filename:
+        :param output_name:
         """
 
-        # IP modularity needed
-
-        with urllib.request.urlopen("http://{0}/cgi-bin/api.cgi?cmd=Download&source={1}&output={1}&token={2}".format(ip_address, filename, self._api.token)) as response, open(output_name, "wb") as out_file:
-            shutil.copyfileobj(response, out_file)
+        if "" is output_name:
+            with urllib.request.urlopen("http://{0}/cgi-bin/api.cgi?cmd=Download&source={1}&output={1}&token={2}".format(ip_address, filename, self._api.token)) as response, open(filename, "wb") as out_file:
+                shutil.copyfileobj(response, out_file)
+        else:
+            with urllib.request.urlopen("http://{0}/cgi-bin/api.cgi?cmd=Download&source={1}&output={1}&token={2}".format(ip_address, filename, self._api.token)) as response, open(output_name, "wb") as out_file:
+                shutil.copyfileobj(response, out_file)
 
     def fetch_available_files(self, given_day: int = 0, given_month: int = 0, given_year: int = 0) -> list:
         """
-        Fetch information about all available video files
+        Fetch available video files
+        If the arguments are not 0, only the given day will be looked up
+
+        :param given_day:
+        :param given_month:
+        :param given_year:
+
+        :return:
         """
 
         recordings = list()
@@ -55,7 +72,7 @@ class RecordingsHandler:
                             days_month.append(j+1)              # Fetch dates that have downloadable video files available
                     video_info["table"] = days_month
 
-                # TODO Optimize maximum runtime (not O(n^3))
+                # TODO Optimize runtime (not O(n^3))
 
                 days_total = 0
                 recordings_total = 0
@@ -75,20 +92,24 @@ class RecordingsHandler:
 
             return recordings
 
-    # TODO Catch KeyError if invalid date was passed as an argument
-
     def _get_available_videos_per_day(self, day: int, month: int, year: int) -> list:
-        available_videos_per_day = self._api.request("POST", data=api_requests.APIRequests.playback_info_day(day, month, year))
+        try:
+            available_videos_per_day = self._api.request("POST", data=api_requests.APIRequests.playback_info_day(day, month, year))
 
-        return [file for file in available_videos_per_day["SearchResult"]["File"]]
+            return [file for file in available_videos_per_day["SearchResult"]["File"]]
+        except KeyError:
+            raise ValueError("No data available at given day")
 
     def _get_available_videos_per_year(self, month: int, year: int) -> list:
         available_videos = list()
 
-        if 1 == month:
-            for each_year in range(year, year-2, -1):
-                available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(each_year)))
-        else:
-            available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(year)))
+        try:
+            if 1 == month:
+                for each_year in range(year, year-2, -1):
+                    available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(each_year)))
+            else:
+                available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(year)))
 
-        return available_videos
+            return available_videos
+        except KeyError:
+            raise ValueError("No data available at given dates")

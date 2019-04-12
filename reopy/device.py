@@ -1,3 +1,6 @@
+#!/usr/bin/env python3.7
+# -*- coding: utf-8 -*-
+
 from reopy.api import api_requests
 from reopy.api import api_handler
 from reopy.playback import playback_handler
@@ -9,14 +12,12 @@ class Device:
     Representation of the actual camera, used to store basic user and device information
     """
 
-    # TODO Make this the central class
-
     def __init__(self, ip_address: str, password: str, username: str = "admin"):
         self._ip_address = ip_address
         self._password = password
         self._username = username
 
-        self._api = api_handler.BasicAPIHandler(self._password, self._username)
+        self._api = api_handler.BasicAPIHandler(self._ip_address, self._password, self._username)
         self._api.login()
 
         self._requests = api_requests.APIRequests()
@@ -42,7 +43,7 @@ class Device:
     @property
     def mac_address(self):
         """
-        MAC Address getter
+        MAC address getter
         """
         return self._mac_address
 
@@ -53,29 +54,40 @@ class Device:
 
         return self._api.request("POST", data=self._requests.device_general_info_get)
 
-    def get_available_recordings(self) -> list:
+    def get_available_recordings(self, day: int = 0, month: int = 0, year: int = 0) -> list:
         """
+        Fetch available video files
+        If the arguments are not 0, only the given day will be looked up
+
+        :param day:
+        :param month:
+        :param year:
+
+        :return:
         """
 
-        return self._rec_handler.fetch_available_files()
+        return self._rec_handler.fetch_available_files(day, month, year)
 
-    def download_recording(self, filename, output_name):
+    def download_recording(self, filename: str, output_name: str = ""):
         """
+        Download the provided video file in the execution folder
+        Name of the recording is enough, as the API only demands the filename
+
+        :param filename:
+        :param output_name:
         """
 
         self._rec_handler.download_file(self._ip_address, filename, output_name)
 
-    def get_open_ports_services(self):
+    def get_open_ports_services(self) -> dict:
+        """
+        Get a map of open ports and services on the device
+        """
+
         return self._connection.ports_services
 
     def _get_firmware_version(self):
-        """
-        """
-
         return self.get_general_device_info()["DevInfo"]["firmVer"]
 
     def _get_device_model(self):
-        """
-        """
-
         return self.get_general_device_info()["DevInfo"]["model"]
