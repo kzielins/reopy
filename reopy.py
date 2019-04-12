@@ -1,7 +1,3 @@
-# No error here even though it is linted,...
-# ...thus...
-#pylint: disable=E0611
-
 from reopy import device
 
 IP_ADDRESS = input("Please enter your devices IP address...\n")
@@ -15,7 +11,7 @@ print(CAM.get_open_ports_services())
 print(CAM.get_available_recordings())
 
 # TODO Implement settings class
-# TODO Properly mplement device class
+# TODO Properly implement device class
 
 # TODO Remove print functions, THIS IS A LIBRARY
 # TODO Implement feature to retrieve live video stream
