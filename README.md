@@ -4,8 +4,8 @@
 
 An unofficial library used to control Reolink security cameras using their (mostly) undocumented API
 
-Written and tested in Python version 3.7.2 and above
-Built on top of [ujson](https://github.com/esnme/ultrajson) and [requests](https://github.com/kennethreitz/requests)
+- Written and tested in Python version 3.7.2 and above
+- Built on top of [ujson](https://github.com/esnme/ultrajson) and [requests](https://github.com/kennethreitz/requests)
 ___
 
 ## Prerequisites
