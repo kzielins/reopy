@@ -1,0 +1,7 @@
+[
+    {
+        "cmd": "GetNetPort",
+        "action": 0,
+        "param": {}
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "cmd": "GetDevInfo",
+        "action": 0,
+        "param": {}
+    }
+]

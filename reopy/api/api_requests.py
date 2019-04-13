@@ -1,6 +1,10 @@
 #!/usr/bin/env python3.7
 # -*- coding: utf-8 -*-
 
+import os
+
+from reopy.utility import util
+
 class APIRequests:
     """
     All necessary API requests stored in one place, customizable
@@ -9,29 +13,12 @@ class APIRequests:
     # TODO Maybe each Request should have its own JSON file?
 
     def __init__(self):
-        self._device_general_info_get = [
-            {
-                "cmd": "GetDevInfo",
-                "action": 0,
-                "param": {}
-            }
-        ]
 
-        self._device_open_ports_services_get = [
-            {
-                "cmd": "GetNetPort",
-                "action": 0,
-                "param": {}
-            }
-        ]
+        self._device_general_info_get = util.FileUtil.read_json(self._get_path_to_file("device_info.json"))
 
-        self._device_network_interface_get = [
-            {
-                "cmd": "GetLocalLink",
-                "action": 0,
-                "param": {}
-            }
-        ]
+        self._device_open_ports_services_get = util.FileUtil.read_json(self._get_path_to_file("ports_services.json"))
+
+        self._device_network_interface_get = util.FileUtil.read_json(self._get_path_to_file("network_iface.json"))
 
     @staticmethod
     def playback_info_day(day: int, month: int, year: int) -> dict:
@@ -46,35 +33,7 @@ class APIRequests:
         :return:
         """
 
-        api_request = [
-            {
-                "cmd": "Search",
-                "action": 1,
-                "param": {
-                    "Search": {
-                        "channel": 0,
-                        "onlyStatus": 0,
-                        "streamType": "main",
-                        "StartTime": {
-                            "year": 0,
-                            "mon": 0,
-                            "day": 0,
-                            "hour": 00,
-                            "min": 00,
-                            "sec": 1
-                        },
-                        "EndTime": {
-                            "year": 0,
-                            "mon": 0,
-                            "day": 0,
-                            "hour": 23,
-                            "min": 59,
-                            "sec": 59
-                        }
-                    }
-                }
-            }
-        ]
+        api_request = util.FileUtil.read_json(APIRequests._get_path_to_file("playback_info_day.json"))
 
         api_request[0]["param"]["Search"]["StartTime"]["year"] = year
         api_request[0]["param"]["Search"]["StartTime"]["mon"] = month
@@ -93,35 +52,7 @@ class APIRequests:
         about all downloadable video files on a specified day
         """
 
-        api_request = [
-            {
-                "cmd": "Search",
-                "action": 1,
-                "param": {
-                    "Search": {
-                        "channel": 0,
-                        "onlyStatus": 1,
-                        "streamType": "main",
-                        "StartTime": {
-                            "year": 2019,
-                            "mon": 1,
-                            "day": 1,
-                            "hour": 0,
-                            "min": 0,
-                            "sec": 0
-                        },
-                        "EndTime": {
-                            "year": 2019,
-                            "mon": 12,
-                            "day": 31,
-                            "hour": 23,
-                            "min": 59,
-                            "sec": 59
-                        }
-                    }
-                }
-            }
-        ]
+        api_request = util.FileUtil.read_json(APIRequests._get_path_to_file("playback_info.json"))
 
         api_request[0]["param"]["Search"]["StartTime"]["year"] = year
         api_request[0]["param"]["Search"]["EndTime"]["year"] = year
@@ -154,3 +85,11 @@ class APIRequests:
         """
 
         return self._device_network_interface_get
+
+    @staticmethod
+    def _get_path_to_file(file_name):
+        module_path = os.path.dirname(__file__)
+        relative_path = "requests/{0}".format(file_name) 
+        file_path = os.path.join(module_path, relative_path)
+
+        return file_path

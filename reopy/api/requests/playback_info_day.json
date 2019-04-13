@@ -1,0 +1,29 @@
+[
+    {
+        "cmd": "Search",
+        "action": 1,
+        "param": {
+            "Search": {
+                "channel": 0,
+                "onlyStatus": 0,
+                "streamType": "main",
+                "StartTime": {
+                    "year": 0,
+                    "mon": 0,
+                    "day": 0,
+                    "hour": 0,
+                    "min": 0,
+                    "sec": 1
+                },
+                "EndTime": {
+                    "year": 0,
+                    "mon": 0,
+                    "day": 0,
+                    "hour": 23,
+                    "min": 59,
+                    "sec": 59
+                }
+            }
+        }
+    }
+]

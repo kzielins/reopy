@@ -1,0 +1,7 @@
+[
+    {
+        "cmd": "GetLocalLink",
+        "action": 0,
+        "param": {}
+    }
+]
