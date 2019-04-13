@@ -1,8 +1,7 @@
 #!/usr/bin/env python3.7
 # -*- coding: utf-8 -*-
 
-from reopy.api import api_requests
-from reopy.api import api_handler
+from reopy.api import api_requests, api_handler
 from reopy.playback import playback_handler
 from reopy.stream import stream_handler
 from reopy.connection import connection
@@ -28,10 +27,10 @@ class Device:
         self._firmware_version = self._get_firmware_version()
         self._mac_address = self._connection.mac_address
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'Camera(Model: {self._model}, Firmware_Version: {self._firmware_version}, MAC_Address: {self._mac_address}, IP: {self._ip_address})'
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, Device):
             return self._mac_address == other.mac_address
 
@@ -41,13 +40,14 @@ class Device:
         return hash((self._mac_address, self._ip_address, self._model))
 
     @property
-    def mac_address(self):
+    def mac_address(self) -> str:
         """
         MAC address getter
         """
+
         return self._mac_address
 
-    def get_general_device_info(self):
+    def get_device_info(self) -> dict:
         """
         Obtain general info about the targeted device
         """
@@ -87,7 +87,7 @@ class Device:
         return self._connection.ports_services
 
     def _get_firmware_version(self):
-        return self.get_general_device_info()["DevInfo"]["firmVer"]
+        return self.get_device_info()["DevInfo"]["firmVer"]
 
     def _get_device_model(self):
-        return self.get_general_device_info()["DevInfo"]["model"]
+        return self.get_device_info()["DevInfo"]["model"]

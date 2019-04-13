@@ -8,7 +8,7 @@ CAM = device.Device(IP_ADDRESS, PASSWORD, USERNAME)
 
 print("Login successful")
 print(CAM)
-print(CAM.get_general_device_info())
+print(CAM.get_device_info())
 print(CAM.get_open_ports_services())
 print(CAM.get_available_recordings())
 
