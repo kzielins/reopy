@@ -30,13 +30,7 @@ class Connection:
         return self._ports_services
 
     def _get_open_ports_services(self):
-        """
-        """
-
         return self._api.request("POST", data=self._requests.device_open_ports_services_get)
 
     def _get_conn_info(self):
-        """
-        """
-
         return self._api.request("POST", data=self._requests.device_network_interface_get)

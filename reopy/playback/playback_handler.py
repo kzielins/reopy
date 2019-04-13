@@ -75,9 +75,6 @@ class RecordingsHandler:
 
                     # TODO Optimize runtime (not O(n^3))
 
-                    days_total = 0
-                    recordings_total = 0
-
                     for video_info in info_video_dates:
                         year = video_info["year"]
                         month = video_info["mon"]
