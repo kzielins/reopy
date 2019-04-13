@@ -36,7 +36,7 @@ class Device:
 
         return False
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self._mac_address, self._ip_address, self._model))
 
     @property
@@ -52,7 +52,7 @@ class Device:
         Obtain general info about the targeted device
         """
 
-        return self._api.request("POST", data=self._requests.device_general_info_get)
+        return self._api.request("POST", data=self._requests.device_general_info_get)["DevInfo"]
 
     def get_available_recordings(self, day: int = 0, month: int = 0, year: int = 0) -> list:
         """
@@ -86,8 +86,8 @@ class Device:
 
         return self._connection.ports_services
 
-    def _get_firmware_version(self):
-        return self.get_device_info()["DevInfo"]["firmVer"]
+    def _get_firmware_version(self) -> str:
+        return self.get_device_info()["firmVer"]
 
-    def _get_device_model(self):
-        return self.get_device_info()["DevInfo"]["model"]
+    def _get_device_model(self) -> str:
+        return self.get_device_info()["model"]

@@ -2,7 +2,7 @@ from reopy import device
 
 IP_ADDRESS = input("Please enter your devices IP address...\n")
 USERNAME = input("Please enter the username for your device (default: admin)...\n") or "admin"
-PASSWORD = input("Please enter the password for user account '{}'...\n".format(USERNAME))
+PASSWORD = input(f"Please enter the password for user account '{USERNAME}'...\n")
 
 CAM = device.Device(IP_ADDRESS, PASSWORD, USERNAME)
 

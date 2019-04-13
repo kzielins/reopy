@@ -25,11 +25,13 @@ class RecordingsHandler:
         :param output_name:
         """
 
+        # TODO Move to API handler class?
+
         if "" is output_name:
-            with urllib.request.urlopen("http://{0}/cgi-bin/api.cgi?cmd=Download&source={1}&output={1}&token={2}".format(ip_address, filename, self._api.token)) as response, open(filename, "wb") as out_file:
+            with urllib.request.urlopen(f"http://{ip_address}/cgi-bin/api.cgi?cmd=Download&source={filename}&output={filename}&token={self._api.token}") as response, open(filename, "wb") as out_file:
                 shutil.copyfileobj(response, out_file)
         else:
-            with urllib.request.urlopen("http://{0}/cgi-bin/api.cgi?cmd=Download&source={1}&output={1}&token={2}".format(ip_address, filename, self._api.token)) as response, open(output_name, "wb") as out_file:
+            with urllib.request.urlopen(f"http://{ip_address}/cgi-bin/api.cgi?cmd=Download&source={filename}&output={filename}&token={self._api.token}") as response, open(output_name, "wb") as out_file:
                 shutil.copyfileobj(response, out_file)
 
     def fetch_available_files(self, given_day: int = 0, given_month: int = 0, given_year: int = 0) -> list:

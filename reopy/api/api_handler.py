@@ -40,7 +40,7 @@ class BasicAPIHandler:
         Log into Reolink camera interface using the API
         """
 
-        login_url = "http://{0}/cgi-bin/api.cgi?cmd=Login&token=null".format(self._ip_address)
+        login_url = f"http://{self._ip_address}/cgi-bin/api.cgi?cmd=Login&token=null"
 
         # Move to API Requests class?
 
@@ -50,8 +50,8 @@ class BasicAPIHandler:
                 "action": 0,
                 "param": {
                     "User": {
-                        "userName": "{}".format(self._username),
-                        "password": "{}".format(self._password)
+                        "userName": f"{self._username}",
+                        "password": f"{self._password}"
                     }
                 }
             }
@@ -75,7 +75,7 @@ class BasicAPIHandler:
                 except KeyError:
                     raise exceptions.CameraError(resp_json)
 
-            self._api_url = "http://{0}/cgi-bin/api.cgi?token={1}".format(self._ip_address, self._token)
+            self._api_url = f"http://{self._ip_address}/cgi-bin/api.cgi?token={self._token}"
 
         else:
             raise exceptions.CameraError(req.text)
