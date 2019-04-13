@@ -5,6 +5,8 @@ USERNAME = input("Please enter the username for your device (default: admin)...\
 PASSWORD = input("Please enter the password for user account '{}'...\n".format(USERNAME))
 
 CAM = device.Device(IP_ADDRESS, PASSWORD, USERNAME)
+
+print("Login successful")
 print(CAM)
 print(CAM.get_general_device_info())
 print(CAM.get_open_ports_services())

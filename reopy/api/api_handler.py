@@ -7,14 +7,13 @@ import time
 import requests
 import ujson
 
+from reopy.exceptions import exceptions
+
 class BasicAPIHandler:
     """
     A very basic interface used to interact with the undocumented
     Reolink camera API
     """
-
-    # TODO Implement LogInException
-    # TODO Implement CameraError
 
     def __init__(self, ip_address, password: str, username: str = "admin"):
         self._ip_address = ip_address
@@ -58,45 +57,28 @@ class BasicAPIHandler:
             }
         ]
 
-        try:
-            print("Attempting to log in...")
-            req = requests.post(login_url, data=ujson.dumps(login_data))
+        req = requests.post(login_url, data=ujson.dumps(login_data))
 
-            if 200 is req.status_code:
-                print("Response status: 200 OK")
+        if 200 is req.status_code:
 
-                self._login_time = time.time()
+            self._login_time = time.time()
 
-                resp_json = ujson.loads(req.text)
+            resp_json = ujson.loads(req.text)
 
-                if 0 is int(resp_json[0]["code"]):
-                    print("Log-in successful...")
-
-                    self._lease_time = resp_json[0]["value"]["Token"]["leaseTime"]
-                    self._token = resp_json[0]["value"]["Token"]["name"]
-                else:
-                    try:
-                        if resp_json[0]["error"]["detail"] == "login failed":
-                            print("Entered either wrong username or wrong password...")
-                            print("Log-in not successful...")
-                            raise Exception
-                    except KeyError:
-                        print("Log-in not successful:")
-                        print(resp_json)
-                        raise Exception
-
-                self._api_url = "http://{0}/cgi-bin/api.cgi?token={1}".format(self._ip_address, self._token)
-                print("Obtained token {0} (lease time: {1} seconds)...".format(self._token, self._lease_time))
-
+            if 0 is int(resp_json[0]["code"]):
+                self._lease_time = resp_json[0]["value"]["Token"]["leaseTime"]
+                self._token = resp_json[0]["value"]["Token"]["name"]
             else:
-                print("Log-in not successful:")
-                print(req.status_code, req.reason)
-                print(req.text)
+                try:
+                    if "login failed" == resp_json[0]["error"]["detail"]:
+                        raise exceptions.LogInException
+                except KeyError:
+                    raise exceptions.CameraError(resp_json)
 
-                raise Exception
-        except Exception as e:
-            print(e.args)
-            sys.exit(1)
+            self._api_url = "http://{0}/cgi-bin/api.cgi?token={1}".format(self._ip_address, self._token)
+
+        else:
+            raise exceptions.CameraError(req.text)
 
     def request(self, request_type: str = "POST", data: str = "") -> dict:
         """
@@ -120,8 +102,7 @@ class BasicAPIHandler:
             if 0 is int(response["code"]):
                 return response["value"]
             else:
-                print("Camera is unable to process request...")
-                raise Exception
+                raise exceptions.CameraError
 
         else:
             self.login()
