@@ -3,13 +3,12 @@
 
 import time
 
+import ujson
+
 class DateUtil:
     """
     A simple way to retrieve the current date in different formats
     """
-
-    def __init__(self):
-        pass
 
     @staticmethod
     def current_time(as_epoch: bool = True):
@@ -21,7 +20,7 @@ class DateUtil:
         (Default: True)
         Otherwise: current time will be returned as verbose dict
 
-        :return:            Well, the current time
+        :return:
         """
 
         time_now_struct = time.time()
@@ -47,3 +46,17 @@ class DateUtil:
     @staticmethod
     def _convert_time(format_string: str, time_struct) -> str:
         return time.strftime(format_string, time_struct)
+
+class FileUtil:
+    """
+    A simple wrapper around file I/O
+    """
+
+    @staticmethod
+    def read_json(file_path) -> dict:
+        """
+        Read JSON data from desired file
+        """
+
+        with open(file_path, "r") as json_file:
+            return ujson.load(json_file)
