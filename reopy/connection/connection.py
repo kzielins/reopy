@@ -3,7 +3,7 @@
 
 class Connection:
     """
-
+    A representation for the connection between the camera and the host
     """
 
     def __init__(self, api, api_requests):

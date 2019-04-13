@@ -37,7 +37,7 @@ class BasicAPIHandler:
 
     def login(self):
         """
-        Log into Reolink camera interface using the api
+        Log into Reolink camera interface using the API
         """
 
         login_url = "http://{0}/cgi-bin/api.cgi?cmd=Login&token=null".format(self._ip_address)
@@ -89,6 +89,8 @@ class BasicAPIHandler:
         :return:    The API response
         """
 
+        # TODO Check what Exception is raised at wrong input
+
         if self._check_token_status:
             if "GET" is request_type:
                 req = requests.get(self._api_url, data=ujson.dumps(data))
@@ -97,7 +99,10 @@ class BasicAPIHandler:
             else:
                 raise ValueError("Request type unsupported")
 
-            response = ujson.loads(req.text)[0]
+            try:
+                response = ujson.loads(req.text)[0]
+            except IndexError:
+                raise exceptions.CameraError
 
             if 0 is int(response["code"]):
                 return response["value"]
