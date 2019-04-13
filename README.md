@@ -1,4 +1,4 @@
-# reopy
+# ![reopy](https://raw.githubusercontent.com/kurzdev/reopy/master/assets/reopy_logo1.png)
 ____
 
 ## Summary
