@@ -1,5 +1,4 @@
 # ![reopy](https://raw.githubusercontent.com/kurzdev/reopy/master/assets/reopy_logo1.png)
-____
 
 ## Summary
 
@@ -16,6 +15,8 @@ ____
 
 ## Getting started
 - You can test the library by running `python3 reopy.py`
+
+____
 
 ## Roadmap
 - Distribute the library on pypi ASAP
