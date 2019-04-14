@@ -15,9 +15,10 @@ class Connection:
         Obtain information about the connection
         between the host and the device /
                 the router and the device
+        and other network stuff
         """
 
-        return self._api.request("POST", data=self._requests.device_network_interface_get)
+        return self._api.request("POST", data=self._requests.network_interface_get)["LocalLink"]
 
     def get_ports_services(self) -> dict:
         """
@@ -25,4 +26,4 @@ class Connection:
         which ports on the device specified
         """
 
-        return self._api.request("POST", data=self._requests.device_open_ports_services_get)["NetPort"]
+        return self._api.request("POST", data=self._requests.open_ports_services_get)["NetPort"]

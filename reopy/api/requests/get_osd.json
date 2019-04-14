@@ -1,0 +1,9 @@
+[
+    {
+        "cmd": "GetOsd",
+        "action": 1,
+        "param": {
+            "channel": 0
+        }
+    }
+]

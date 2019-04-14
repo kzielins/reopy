@@ -12,8 +12,9 @@ class RecordingsHandler:
     An interface to automatically download all stored video files on the camera
     """
 
-    def __init__(self, api_handler: object):
+    def __init__(self, api_handler: object, api_requests: object):
         self._api = api_handler
+        self._requests = api_requests
 
     def download_file(self, ip_address: str, filename: str, output_name: str = ""):
         """
@@ -97,7 +98,7 @@ class RecordingsHandler:
 
     def _get_available_videos_per_day(self, day: int, month: int, year: int) -> list:
         try:
-            available_videos_per_day = self._api.request("POST", data=api_requests.APIRequests.playback_info_day(day, month, year))
+            available_videos_per_day = self._api.request("POST", data=self._requests.playback_info_day(day, month, year))
 
             return [file for file in available_videos_per_day["SearchResult"]["File"]]
 
@@ -109,8 +110,8 @@ class RecordingsHandler:
 
         if 1 == month:
             for each_year in range(year, year-2, -1):
-                available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(each_year)))
+                available_videos.append(self._api.request("POST", data=self._requests.playback_info_available(each_year)))
         else:
-            available_videos.append(self._api.request("POST", data=api_requests.APIRequests.playback_info_available(year)))
+            available_videos.append(self._api.request("POST", data=self._requests.playback_info_available(year)))
 
         return available_videos

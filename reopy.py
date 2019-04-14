@@ -8,13 +8,12 @@ CAM = device.Device(IP_ADDRESS, PASSWORD, USERNAME)
 
 print("Login successful")
 print(CAM)
-print(CAM.get_ports_services())
-print(CAM.get_current_device_performance())
+print(CAM.get_connection_info())
 
 # TODO Implement settings class
+# TODO Implement connection class
 # TODO Properly implement device class
 
-# TODO Remove print functions, THIS IS A LIBRARY -> Exceptions
 # TODO Rework Exception system (priority: high)
 # TODO Implement feature to retrieve live video stream (priority: low)
 # TODO URL/IP modularity, see network detection system (priority: low)

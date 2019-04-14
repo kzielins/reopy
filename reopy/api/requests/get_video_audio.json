@@ -1,0 +1,9 @@
+[
+    {
+        "cmd": "GetEnc",
+        "action": 1,
+        "param": {
+            "channel": 0
+        }
+    }
+]
