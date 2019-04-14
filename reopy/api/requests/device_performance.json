@@ -1,0 +1,7 @@
+[
+    {
+        "cmd": "GetPerformance",
+        "action": 0,
+        "param": {}
+    }
+]

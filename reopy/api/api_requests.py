@@ -14,10 +14,10 @@ class APIRequests:
 
     def __init__(self):
 
-        self._device_general_info_get = util.FileUtil.read_json(self._get_path_to_file("device_info.json"))
-
+        self._device_general_info = util.FileUtil.read_json(self._get_path_to_file("device_info.json"))
+        self._device_performance = util.FileUtil.read_json(self._get_path_to_file("device_performance.json"))
+        
         self._device_open_ports_services_get = util.FileUtil.read_json(self._get_path_to_file("ports_services.json"))
-
         self._device_network_interface_get = util.FileUtil.read_json(self._get_path_to_file("network_iface.json"))
 
     @staticmethod
@@ -60,18 +60,27 @@ class APIRequests:
         return api_request
 
     @property
-    def device_general_info_get(self):
+    def device_general_info(self):
         """
-        Return api request, which is then used to fetch general
+        Return API request, which is then used to fetch general
         information about the device itself
         """
 
-        return self._device_general_info_get
+        return self._device_general_info
+
+    @property
+    def device_performance(self):
+        """
+        Return API request, which is then used to fetch general
+        information about the device's current performance
+        """
+
+        return self._device_performance
 
     @property
     def device_open_ports_services_get(self):
         """
-        Return api request, which is then used to fetch information
+        Return API request, which is then used to fetch information
         about open ports and running services on the device
         """
 
@@ -80,7 +89,7 @@ class APIRequests:
     @property
     def device_network_interface_get(self):
         """
-        Return custom api request, which is then used to fetch information
+        Return API request, which is then used to fetch information
         about interfaces used to communicate with the client by the device
         """
 

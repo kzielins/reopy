@@ -10,27 +10,19 @@ class Connection:
         self._api = api
         self._requests = api_requests
 
-        self._mac_address = self._get_conn_info()["LocalLink"]["mac"]
-        self._ports_services = self._get_open_ports_services()["NetPort"]
-
-    @property
-    def mac_address(self) -> str:
+    def get_connection_info(self) -> str:
         """
-        MAC address getter
+        Obtain information about the connection
+        between the host and the device /
+                the router and the device
         """
 
-        return self._mac_address
-
-    @property
-    def ports_services(self) -> dict:
-        """
-        Port: Service map getter
-        """
-
-        return self._ports_services
-
-    def _get_open_ports_services(self):
-        return self._api.request("POST", data=self._requests.device_open_ports_services_get)
-
-    def _get_conn_info(self):
         return self._api.request("POST", data=self._requests.device_network_interface_get)
+
+    def get_ports_services(self) -> dict:
+        """
+        Obtain information about which services run on
+        which ports on the device specified
+        """
+
+        return self._api.request("POST", data=self._requests.device_open_ports_services_get)["NetPort"]

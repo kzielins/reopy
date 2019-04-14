@@ -8,9 +8,8 @@ CAM = device.Device(IP_ADDRESS, PASSWORD, USERNAME)
 
 print("Login successful")
 print(CAM)
-print(CAM.get_device_info())
-print(CAM.get_open_ports_services())
-print(CAM.get_available_recordings())
+print(CAM.get_ports_services())
+print(CAM.get_current_device_performance())
 
 # TODO Implement settings class
 # TODO Properly implement device class
