@@ -1,10 +1,12 @@
-from reopy import device
+### EXAMPLE ###
+
+import reopy
 
 IP_ADDRESS = input("Please enter your devices IP address...\n")
 USERNAME = input("Please enter the username for your device (default: admin)...\n") or "admin"
 PASSWORD = input(f"Please enter the password for user account '{USERNAME}'...\n")
 
-CAM = device.Device(IP_ADDRESS, PASSWORD, USERNAME)
+CAM = reopy.Device(IP_ADDRESS, PASSWORD, USERNAME)
 
 print("Login successful")
 print(CAM)
