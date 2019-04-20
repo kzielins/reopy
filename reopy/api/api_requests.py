@@ -3,14 +3,12 @@
 
 import os
 
-from reopy.utility import util
+from ..utility import util
 
 class APIRequests:
     """
     All necessary API requests stored in one place, customizable
     """
-
-    # TODO Maybe each Request should have its own JSON file?
 
     def __init__(self):
 

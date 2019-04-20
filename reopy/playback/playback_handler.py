@@ -4,8 +4,8 @@
 import urllib.request
 import shutil
 
-from reopy.utility import util
-from reopy.api import api_requests
+from ..utility import util
+from ..api import api_requests
 
 class RecordingsHandler:
     """

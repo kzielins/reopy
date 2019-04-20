@@ -1,10 +1,10 @@
 #!/usr/bin/env python3.7
 # -*- coding: utf-8 -*-
 
-from reopy.api import api_requests, api_handler
-from reopy.playback import playback_handler
-from reopy.stream import stream_handler
-from reopy.connection import connection
+from ..api import api_requests, api_handler
+from ..playback import playback_handler
+from ..stream import stream_handler
+from ..connection import connection
 
 class Device:
     """
@@ -25,7 +25,7 @@ class Device:
 
         self._model = self.get_info()["model"]
         self._firmware_version = self.get_info()["firmVer"]
-        self._mac_address = self.get_connection_info()["LocalLink"]["mac"]
+        self._mac_address = self.get_connection_info()["mac"]
 
     def __repr__(self) -> str:
         return f'Camera(Model: {self._model}, Firmware_Version: {self._firmware_version}, MAC_Address: {self._mac_address}, IP: {self._ip_address})'

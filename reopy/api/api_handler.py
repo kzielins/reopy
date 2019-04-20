@@ -7,7 +7,7 @@ import time
 import requests
 import ujson
 
-from reopy.exceptions import exceptions
+from ..exceptions import exceptions
 
 class BasicAPIHandler:
     """
